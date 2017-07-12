@@ -11,5 +11,14 @@
  //Using Lodashs module here
 
  const lodashs= require('./lodashlearnings.js');
- var results= lodashs.eliminateDuplicates([1,1,2,3,'sharan','sharan','john',1]);
+ var results= lodashs.eliminateDuplicates([1,1,2,3,'sharan','bro','kuttan',1]);
  console.log("The filtered result is"+ " " +results);
+
+
+ //Read from command line
+
+ const Fromcommand= require('./fromcommandline.js');
+ var returns= Fromcommand.a;
+ console.log(returns);
+
+
