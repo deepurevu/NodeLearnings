@@ -1,25 +1,35 @@
+
+//Program will accept the user input address using Yargs module and set the options for passing address by -a 'node app.js -a '1360 south white' and it has to be encoded
+//and then call google maps API uinhg http request from request package and display the latitude and longitude
+
 const request = require('request');
+const yargs = require('yargs');
 
-request({url:'https://maps.googleapis.com/maps/api/geocode/json?address=4118%20greenleaf%20court%20park%20city',
-        //JSON:true
+const argv = yargs
+  .options({
+    a: {
+      demand: true,
+      alias: 'address',
+      describe: 'Address to fetch weather for',
+      string: true
+    }
+  })
+  .help()
+  .alias('help', 'h')
+  .argv;
 
-    } ,(err,response,body)=>{
+var encodedAddress = encodeURIComponent(argv.address);
 
-      //  console.log(JSON.stringify(body,undefined,2));
-   //    console.log(response);
-  // console.log(body.results[0]);//results in json view is an array
+request({
+  url: `https://maps.googleapis.com/maps/api/geocode/json?address=${encodedAddress}`,
+  json: true    //dont put capital JSON it will throw no results, happened in training
+}, (error, response, body) => {
   console.log(`Address: ${body.results[0].formatted_address}`);
-    });
+  console.log(`Latitude: ${body.results[0].geometry.location.lat}`);
+  console.log(`Longitude: ${body.results[0].geometry.location.lng}`)
+});
 
 
-    request('https://maps.googleapis.com/maps/api/geocode/json?address=1360 S.White Oak drive',function(err,resp,body){   ///in simple form
-
-        
-        // console.log(JSON.stringify(body,undefined,2));
-     //    console.log(body.results[0].formatted_address);
-
-    // console.log(`Address: ${body.results[0].formatted_address}`);
-    });
 
 
     //request(url,callbackfunction(){});//request takes two parameters and once url result come back it execites the callback function and that time only call back function gets executed.
